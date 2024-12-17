@@ -13,7 +13,7 @@ keywords = [
 "greedy-algorithm"
 ]
 
-categories = ["science", "physics", "quantum", "simulation"]
+categories = ["science", "simulation"]
 
 license = "GPL-3.0-or-later"
 
