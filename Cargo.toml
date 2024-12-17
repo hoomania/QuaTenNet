@@ -7,7 +7,6 @@ edition = "2021"
 description = "Rust package providing essential tools for working with tensor networks in computational quantum physics."
 repository = "https://github.com/hoomania/QuaTenNet"
 keywords = [
-"computational-physics",
 "tensor-network",
 "tensor-contraction",
 "tensor-dot",
