@@ -20,3 +20,5 @@ license = "GPL-3.0-or-later"
 
 [dependencies]
 ndarray = "0.16.1"
+ndarray-linalg = "^0.17"
+rand = "0.9.1"
