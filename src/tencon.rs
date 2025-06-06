@@ -26,10 +26,6 @@ use std::collections::{HashMap, HashSet};
 /// This function may return an error if:
 /// - The indices in `contraction_order` are not valid (e.g., an index appears the wrong number of times).
 /// - There are issues during tensor operations such as shape mismatches or invalid contractions.
-// pub fn contract(
-//     mut tensors: Vec<ArrayD<f64>>,
-//     mut contraction_order: Vec<Vec<i32>>,
-// ) -> Result<ArrayD<f64>, String> {
 pub fn contract(
     tensors: &[ArrayD<f64>],
     contraction_order: &[&[i32]],
