@@ -1,26 +1,21 @@
-use ndarray::Array;
 use qua_ten_net::tendot::tensor_dot;
+use qua_ten_net::tensor::random;
 
 fn main() {
-    let vec_a: Vec<f64> = (0..6).map(|x| x as f64).collect();
-    let a = Array::from_shape_vec(vec![2, 3], vec_a).expect("ShapeError!");
+    let tensor_a = random(&[3, 2]);
+    let tensor_b = random(&[2, 4, 2]);
 
-    let vec_b = (0..12).map(|x| x as f64).collect();
-    let b = Array::from_shape_vec(vec![3, 2, 2], vec_b).expect("ShapeError!");
-
-    let dot = tensor_dot(&a, &b, vec![1, 0]);
-
-    match dot {
+    match tensor_dot(&tensor_a, &tensor_b, vec![1, 0]) {
         Ok(result) => {
-            println!("\nMatrix A: \n{:?}", a);
-            println!("\nMatrix B: \n{:?}", b);
+            println!("\nMatrix A: \n{:?}", tensor_a);
+            println!("\nMatrix B: \n{:?}", tensor_b);
             println!(
                 "\nDot product of A and B along the second index of A and the first index of B: \n{:?}",
                 result
             );
         }
         Err(err) => {
-            println!("Error: {}", err);
+            println!("\nError on tensor dot product: \n{}", err);
         }
     }
 }

@@ -1,4 +1,4 @@
-use ndarray::{Array, Array2};
+use ndarray::Array2;
 use qua_ten_net::tensor::*;
 
 fn main() {
@@ -17,12 +17,24 @@ fn main() {
     let diag = diagonal(&[3.14159, 2.71828, 1.38064]);
     println!("\n3x3 diagonal matrix: \n{:?}", diag);
 
+    let rnd = random(&[2, 2, 2]);
+    println!(
+        "\nTensor filled with random numbers between 0.0 and 1.0: \n{:?}",
+        rnd
+    );
+
     let sample =
         Array2::from_shape_vec((3, 3), (0..9).map(|x| x as f64).collect()).expect("ShapeError!");
-    let svd = svd(sample.clone()).unwrap();
 
-    println!("\n3x3 matrix as SVD input: \n{:?}", sample);
-    println!("\nU matrix: \n{:?}", svd.u);
-    println!("\nSigma matrix: \n{:?}", svd.sigma);
-    println!("\nV^T matrix: \n{:?}", svd.vt);
+    match svd(sample.clone()) {
+        Ok(svd) => {
+            println!("\n3x3 matrix as SVD input: \n{:?}", sample);
+            println!("\nU matrix: \n{:?}", svd.u);
+            println!("\nSigma matrix: \n{:?}", svd.sigma);
+            println!("\nV^T matrix: \n{:?}", svd.vt);
+        }
+        Err(err) => {
+            println!("\nError on SVD: \n{}", err);
+        }
+    }
 }
