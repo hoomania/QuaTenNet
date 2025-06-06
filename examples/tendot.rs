@@ -12,7 +12,12 @@ fn main() {
 
     match dot {
         Ok(result) => {
-            println!("Dot Product: {:?}", result);
+            println!("\nMatrix A: \n{:?}", a);
+            println!("\nMatrix B: \n{:?}", b);
+            println!(
+                "\nDot product of A and B along the second index of A and the first index of B: \n{:?}",
+                result
+            );
         }
         Err(err) => {
             println!("Error: {}", err);

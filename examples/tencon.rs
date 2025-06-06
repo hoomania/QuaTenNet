@@ -14,7 +14,7 @@ fn main() {
     let order: Vec<Vec<i32>> = vec![vec![1, 2, -1], vec![1, -2], vec![2, -3, -4, -5]];
 
     let con = contract(vec![a.clone(), b.clone(), c.clone()], order.clone());
-    let con_map = contract_map(vec![a, b, c], order);
-    println!("\n Contraction Output: {:?}", con);
-    println!("\n Contraction Map: {:?}", con_map);
+    let con_map = contract_map(&[a, b, c], &order);
+    println!("\nContraction Output:\n {:?}", con);
+    println!("\nContraction Map:\n {:?}", con_map);
 }
