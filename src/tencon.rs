@@ -26,33 +26,37 @@ use std::collections::{HashMap, HashSet};
 /// This function may return an error if:
 /// - The indices in `contraction_order` are not valid (e.g., an index appears the wrong number of times).
 /// - There are issues during tensor operations such as shape mismatches or invalid contractions.
+// pub fn contract(
+//     mut tensors: Vec<ArrayD<f64>>,
+//     mut contraction_order: Vec<Vec<i32>>,
+// ) -> Result<ArrayD<f64>, String> {
 pub fn contract(
-    mut tensors: Vec<ArrayD<f64>>,
-    mut contraction_order: Vec<Vec<i32>>,
+    tensors: &[ArrayD<f64>],
+    contraction_order: &[&[i32]],
 ) -> Result<ArrayD<f64>, String> {
-    indices_validation(&contraction_order)?;
-    prepare_contraction_data(&mut tensors, &mut contraction_order);
+    let mut tensor_list: Vec<ArrayD<f64>> = tensors.iter().cloned().collect();
+    let mut order: Vec<Vec<i32>> = contraction_order.iter().map(|&arr| arr.to_vec()).collect();
 
-    let mut ten_list = tensors;
-    let mut cnt_order = contraction_order;
+    indices_validation(&order)?;
+    prepare_contraction_data(&mut tensor_list, &mut order);
 
     // Generate a contraction plan using a greedy algorithm
-    let contraction_plan = contract_map(&ten_list, &cnt_order);
+    let contraction_plan = contract_map(&tensor_list, &order);
 
     for pair in contraction_plan {
         for &i in &pair {
-            trace_check(&mut ten_list[i], &mut cnt_order[i])?;
+            trace_check(&mut tensor_list[i], &mut order[i])?;
         }
 
-        let axes = order_to_index(&cnt_order, &pair);
-        let contraction = tensor_dot(&ten_list[pair[0]], &ten_list[pair[1]], axes)?;
+        let axes = order_to_index(&order, &pair);
+        let contraction = tensor_dot(&tensor_list[pair[0]], &tensor_list[pair[1]], axes)?;
 
-        ten_list[pair[0]] = contraction;
-        ten_list.remove(pair[1]);
-        order_reformat(&mut cnt_order, &pair);
+        tensor_list[pair[0]] = contraction;
+        tensor_list.remove(pair[1]);
+        order_reformat(&mut order, &pair);
     }
 
-    Ok(final_order(ten_list.remove(0), cnt_order))
+    Ok(final_order(tensor_list.remove(0), order))
 }
 
 /// Validates the indices in the contraction order for tensor operations.
@@ -122,7 +126,7 @@ fn indices_validation(order: &[Vec<i32>]) -> Result<(), String> {
 /// This function assumes that the contraction orders are valid and that the tensors are properly
 /// initialized. It modifies the tensors and orders in place, so the original vectors will be
 /// updated directly. This function should be called before performing any tensor contractions.
-fn prepare_contraction_data(tensors: &mut Vec<ArrayD<f64>>, orders: &mut Vec<Vec<i32>>) {
+fn prepare_contraction_data(tensors: &mut [ArrayD<f64>], orders: &mut Vec<Vec<i32>>) {
     let max_idx = orders.iter().flatten().cloned().max().unwrap_or(0);
     let ten_len = tensors.len();
     let extra_dims: Vec<usize> = vec![1; ten_len - 1];
