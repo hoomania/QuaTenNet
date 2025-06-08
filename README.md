@@ -1,5 +1,7 @@
-![](https://raw.githubusercontent.com/hoomania/QuaTenNet/master/assets/qtn_logo.jpg)
-
+<div align="center">
+<img src="https://raw.githubusercontent.com/hoomania/QuaTenNet/master/assets/qtn_logo.jpg" width="250px" style="border-radius: 10px;
+"/>
+</div>
 ## QuaTenNet (QTN)
 
 **QuaTenNet** is a Rust package providing essential tools for working with tensor networks in computational quantum physics. This library aims to facilitate the development and analysis of tensor network algorithms, making it easier for researchers and developers to implement computational quantum simulations.
@@ -17,7 +19,7 @@ To include **QuaTenNet** in your Rust project, add the following line to your `C
 
 ```toml
 [dependencies]
-qua_ten_net = "0.1.0"  # Replace with the latest version
+qua_ten_net = "0.2.0"  # Replace with the latest version
 ```
 
 ## Contraction Graph
