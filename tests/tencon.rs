@@ -1,5 +1,6 @@
 use ndarray::Array;
-use qua_ten_net::tencon::{contract, contract_map};
+use qua_ten_net::tencon::contract;
+use qua_ten_net::tensor;
 
 #[test]
 fn test_contract() {
@@ -9,9 +10,10 @@ fn test_contract() {
     let vec_b = (0..81).map(|x| x as f64).collect();
     let b = Array::from_shape_vec(vec![3, 3, 3, 3], vec_b).expect("ShapeError!");
 
-    let order: Vec<Vec<i32>> = vec![vec![-1, 1, 2], vec![2, 3, -2], vec![1, 3, -3, -4]];
-
-    let con = contract(vec![a.clone(), a, b], order);
+    let con = contract(
+        &[a.clone(), a, b],
+        &[&[-1, 1, 2], &[2, 3, -2], &[1, 3, -3, -4]],
+    );
 
     let correct = Array::from_shape_vec(
         vec![2, 2, 3, 3],
@@ -25,19 +27,4 @@ fn test_contract() {
     .expect("ShapeError!");
 
     assert_eq!(con.unwrap(), correct);
-}
-
-#[test]
-fn test_contract_map() {
-    let vec_a: Vec<f64> = (0..12).map(|x| x as f64).collect();
-    let a = Array::from_shape_vec(vec![2, 3, 2], vec_a).expect("ShapeError!");
-
-    let vec_b = (0..81).map(|x| x as f64).collect();
-    let b = Array::from_shape_vec(vec![3, 3, 3, 3], vec_b).expect("ShapeError!");
-
-    let order: Vec<Vec<i32>> = vec![vec![-1, 1, 2], vec![2, 3, -2], vec![1, 3, -3, -4]];
-
-    let con_map = contract_map(&[a.clone(), a, b], &order);
-    let correct = vec![vec![1, 0], vec![1, 0]];
-    assert_eq!(con_map, correct);
 }
