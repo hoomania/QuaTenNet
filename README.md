@@ -2,6 +2,7 @@
 <img src="https://raw.githubusercontent.com/hoomania/QuaTenNet/master/assets/qtn_logo.jpg" width="250px" style="border-radius: 10px;
 "/>
 </div>
+
 ## QuaTenNet (QTN)
 
 **QuaTenNet** is a Rust package providing essential tools for working with tensor networks in computational quantum physics. This library aims to facilitate the development and analysis of tensor network algorithms, making it easier for researchers and developers to implement computational quantum simulations.
